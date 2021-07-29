@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: web-deployment
 spec:
-  replicas: 10
+  replicas: 3
   selector:
     matchLabels:
       app: web
@@ -13,7 +13,7 @@ spec:
         app: web
     spec:
       containers:
-        - name: kubernetes-tutorial-application
+        - name: web
           image: quii/cjtest1
           ports:
             - containerPort: 8080
