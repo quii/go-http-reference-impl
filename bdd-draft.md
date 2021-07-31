@@ -17,15 +17,14 @@ I try to set up my teams, so they have close collaboration with domain experts a
 
 Even if you have the discipline to remain truly user focused, when you pick up that story to do, how do you start? 
 
-In this post I will be referring to snippets from [my reference repo](https://github.com/quii/go-reference-repo) which is an example starting point of a project which pulls together a lot of the principles I use for writing web services in Go. It's just my opinion and it won't be for everyone. Here are the kind of things it optimises for:
+In this post I will be referring to snippets from [my reference repo](https://github.com/quii/go-reference-repo) which is an example starting point of a project which pulls together a lot of the principles I use for writing web services in Go. It's just my opinion, and it won't be for everyone and won't cater for every context and need. This is not a framework, it's just ideas. Here are the kind of things it optimises for:
 
 - Able to run acceptance, unit and integration tests locally and without fuss. Should work out of the box. `./build.sh && git push` should be safe to go to prod. Emphasis on short cycle times, small-batch work for fast feedback-loops and reduce risk. 
 - Package up in to a small Docker image for deployment.
 - As testable as reasonably possible. High confidence the system works without manual checks.
 - Obvious where to make a start.
 - Not opinionated of how things work within `internal`. If you want to do a layered architecture, hexagonal, ports & adapters, it doesn't matter too much. 
-  - However to keep things testable, the code inside `cmd` should be very minimal.
-
+- To keep things testable, the code inside `cmd` should be very minimal.
 
 ## How to start developing a user story
 
