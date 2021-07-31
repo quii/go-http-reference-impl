@@ -30,3 +30,17 @@ Similarly, if you do `kubectl get pods` and then `kubectl delete pod XXXX`, the 
 ### Service
 
 Used to expose an application (a set of pods) as a service. Load balances for you.
+
+# ALSO: Messing around with acceptance tests and having a reference implementation for myself
+
+## Requirements for acceptance tests
+
+- Just describe in terms of the domain. Easier starting point for dev once you've had a discussion with stakeholders.
+- Decoupled from implementation detail
+- Describe "from the top" want you want in a test without worrying about how
+- Be able to run easily locally against
+  - A docker container version, with real dependencies (e.g docker compose dependencies)
+  - Against a real deployed environment to check its deployed and other infrastrcture concerns are working correctly (terraform, config, secrets, etc etc)
+  - Bonus, as a unit test
+
+TODO: Do a vid where I add a new bit of functionality using the approach. Make it _completely_ new, e.g the birthday greeting thing
