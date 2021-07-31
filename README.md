@@ -33,6 +33,12 @@ Used to expose an application (a set of pods) as a service. Load balances for yo
 
 # ALSO: Messing around with acceptance tests and having a reference implementation for myself
 
+## General requirements
+
+- Able to run acceptance, unit and integration tests locally and without fuss. Should work out of the box. `./build.sh && git push` should be safe to go to prod. Emphasis on short cycle times, small-batch work to get feedback loops and reduce risk. 
+- Package up in to a small Docker image for deployment
+- As testable as reasonably possible. High confidence the system works without manual checks
+
 ## Requirements for acceptance tests
 
 - Just describe in terms of the domain. Easier starting point for dev once you've had a discussion with stakeholders.

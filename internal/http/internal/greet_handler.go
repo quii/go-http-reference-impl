@@ -6,7 +6,31 @@ import (
 	"net/http"
 )
 
-func Greet(w http.ResponseWriter, r *http.Request) {
+type Greeter interface {
+	Greet(name string) (greeting string, err error)
+}
+
+type GreeterFunc func(string) (string, error)
+
+func (g GreeterFunc) Greet(name string) (greeting string, err error) {
+	return g(name)
+}
+
+type GreetHandler struct {
+	greeter Greeter
+}
+
+func NewGreetHandler(greeter Greeter) *GreetHandler {
+	return &GreetHandler{greeter: greeter}
+}
+
+func (g *GreetHandler) Greet(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	fmt.Fprintf(w, "Hello, %s!", vars["name"])
+	greeting, err := g.greeter.Greet(vars["name"])
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	fmt.Fprint(w, greeting)
 }

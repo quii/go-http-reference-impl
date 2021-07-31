@@ -1,4 +1,4 @@
-package hello_go_k8s
+package acceptance_tests
 
 import (
 	"github.com/matryer/is"
@@ -7,6 +7,12 @@ import (
 
 type GreetingSystem interface {
 	Greet(name string) (greeting string, err error)
+}
+
+type GreetingSystemFunc func(name string) (greeting string, err error)
+
+func (g GreetingSystemFunc) Greet(name string) (greeting string, err error) {
+	return g(name)
 }
 
 func GreetingAcceptanceTest(t *testing.T, system GreetingSystem) {

@@ -4,6 +4,7 @@ package acceptance
 
 import (
 	"github.com/quii/hellok8s"
+	"github.com/quii/hellok8s/acceptance-tests"
 	"testing"
 )
 
@@ -14,7 +15,7 @@ func TestAPI(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	hello_go_k8s.GreetingAcceptanceTest(t, client)
+	acceptance_tests.GreetingAcceptanceTest(t, client)
 }
 
 

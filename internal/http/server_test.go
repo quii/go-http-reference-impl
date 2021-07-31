@@ -4,6 +4,7 @@ package http
 
 import (
 	hellogok8s "github.com/quii/hellok8s"
+	"github.com/quii/hellok8s/acceptance-tests"
 	"net/http/httptest"
 	"testing"
 )
@@ -14,5 +15,5 @@ func TestNewWebServer(t *testing.T) {
 
 	client := hellogok8s.NewAPIClient(server.URL)
 
-	hellogok8s.GreetingAcceptanceTest(t, client)
+	acceptance_tests.GreetingAcceptanceTest(t, client)
 }
