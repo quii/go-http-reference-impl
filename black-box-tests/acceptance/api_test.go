@@ -14,7 +14,7 @@ func TestAPI(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	hello_go_k8s.APIAcceptanceTest(t, client)
+	hello_go_k8s.GreetingAcceptanceTest(t, client)
 }
 
 

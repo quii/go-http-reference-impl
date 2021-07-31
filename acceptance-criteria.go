@@ -5,13 +5,8 @@ import (
 	"testing"
 )
 
-func APIAcceptanceTest(t *testing.T, client *APIClient) {
-	t.Run("healthcheck", func(t *testing.T) {
-		is := is.New(t)
-		is.NoErr(client.CheckIfHealthy())
-	})
-
-	t.Run("greeting", func(t *testing.T) {
+func GreetingAcceptanceTest(t *testing.T, client *APIClient) {
+	t.Run("greets people in a friendly manner", func(t *testing.T) {
 		is := is.New(t)
 
 		greeting, err := client.Greet("Pepper")

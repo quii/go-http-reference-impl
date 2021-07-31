@@ -14,5 +14,5 @@ func TestNewWebServer(t *testing.T) {
 
 	client := hellogok8s.NewAPIClient(server.URL)
 
-	hellogok8s.APIAcceptanceTest(t, client)
+	hellogok8s.GreetingAcceptanceTest(t, client)
 }
