@@ -8,6 +8,6 @@ import (
 func newRouter() *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc("/internal/healthcheck", internal.HealthCheck)
-	router.HandleFunc("/greet", internal.Greet)
+	router.HandleFunc("/greet/{name}", internal.Greet)
 	return router
 }

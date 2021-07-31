@@ -18,7 +18,7 @@ func TestAPI(t *testing.T) {
 	t.Run("it greets with Hello, world!", func(t *testing.T) {
 		is := is.New(t)
 
-		greeting, err := client.Greet()
+		greeting, err := client.Greet("world")
 		is.NoErr(err)
 		is.Equal(greeting, "Hello, world!")
 	})

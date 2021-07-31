@@ -48,8 +48,8 @@ func (a *APIClient) WaitForAPIToBeHealthy(retries int) error {
 	return fmt.Errorf("given up checking healthcheck, %v", err)
 }
 
-func (a *APIClient) Greet() (string, error) {
-	url := a.baseURL + "/greet"
+func (a *APIClient) Greet(name string) (string, error) {
+	url := a.baseURL + "/greet/"+name
 
 	res, err := a.httpClient.Get(url)
 	if err != nil {

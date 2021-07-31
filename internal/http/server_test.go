@@ -23,8 +23,8 @@ func TestNewWebServer(t *testing.T) {
 	t.Run("greeting", func(t *testing.T) {
 		is := is.New(t)
 
-		greeting, err := client.Greet()
+		greeting, err := client.Greet("Pepper")
 		is.NoErr(err)
-		is.Equal(greeting, "Hello, world!")
+		is.Equal(greeting, "Hello, Pepper!")
 	})
 }
