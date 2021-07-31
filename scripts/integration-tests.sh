@@ -1,0 +1,3 @@
+#!/bin/bash -e
+
+go test -count=1 --tags=integration ./...

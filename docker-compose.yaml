@@ -1,0 +1,9 @@
+version: '3.7'
+services:
+  web:
+    build:
+      context: .
+    volumes:
+      - .:/build
+    ports:
+      - "8080:8080"
