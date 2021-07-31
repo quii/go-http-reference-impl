@@ -3,7 +3,6 @@
 package acceptance
 
 import (
-	"github.com/matryer/is"
 	"github.com/quii/hellok8s"
 	"testing"
 )
@@ -15,14 +14,7 @@ func TestAPI(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	t.Run("it greets with Hello, world!", func(t *testing.T) {
-		is := is.New(t)
-
-		greeting, err := client.Greet("world")
-		is.NoErr(err)
-		is.Equal(greeting, "Hello, world!")
-	})
+	hello_go_k8s.APIAcceptanceTest(t, client)
 }
-
 
 
