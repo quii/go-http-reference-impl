@@ -5,11 +5,15 @@ import (
 	"testing"
 )
 
-func GreetingAcceptanceTest(t *testing.T, client *APIClient) {
+type GreetingSystem interface {
+	Greet(name string) (greeting string, err error)
+}
+
+func GreetingAcceptanceTest(t *testing.T, system GreetingSystem) {
 	t.Run("greets people in a friendly manner", func(t *testing.T) {
 		is := is.New(t)
 
-		greeting, err := client.Greet("Pepper")
+		greeting, err := system.Greet("Pepper")
 		is.NoErr(err)
 		is.Equal(greeting, "Hello, Pepper!")
 	})
