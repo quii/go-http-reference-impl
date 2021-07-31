@@ -1,4 +1,4 @@
-package hello_go_k8s
+package acceptance_tests
 
 import (
 	"fmt"

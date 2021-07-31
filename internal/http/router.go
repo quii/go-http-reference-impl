@@ -12,6 +12,6 @@ func newRouter() *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc("/internal/healthcheck", internal.HealthCheck)
 	router.HandleFunc("/greet/{name}", greetingHandler.Greet)
-	
+
 	return router
 }

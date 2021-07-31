@@ -5,17 +5,11 @@ import (
 	"testing"
 )
 
-type GreetingSystem interface {
+type GreetingSystemAdapter interface {
 	Greet(name string) (greeting string, err error)
 }
 
-type GreetingSystemFunc func(name string) (greeting string, err error)
-
-func (g GreetingSystemFunc) Greet(name string) (greeting string, err error) {
-	return g(name)
-}
-
-func GreetingAcceptanceTest(t *testing.T, system GreetingSystem) {
+func GreetingAcceptanceTest(t *testing.T, system GreetingSystemAdapter) {
 	t.Run("greets people in a friendly manner", func(t *testing.T) {
 		is := is.New(t)
 
@@ -25,3 +19,8 @@ func GreetingAcceptanceTest(t *testing.T, system GreetingSystem) {
 	})
 }
 
+type GreetingSystemFunc func(name string) (greeting string, err error)
+
+func (g GreetingSystemFunc) Greet(name string) (greeting string, err error) {
+	return g(name)
+}
