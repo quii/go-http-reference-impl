@@ -1,52 +1,139 @@
-# hello go k8s
+# Go HTTP service reference implementation
 
-Messing around with k8s.
+This is my current state-of-the-art opinion on how I like to structure Go projects for how I, and how I want my teams to work.
 
-Check the deploy folder for things to play around with
+## High level-requirements
 
-- `./deploy/build-image.sh` creates an image on dockerhub of this app for k8s to pull down and use. If you're forking this, you'll need to log in to dockerhub and change the username parts.
-    - Or figure out how to get k8s be able to use a local registry. I couldn't
-- `./deploy/web.yaml` contains the desired state for our cluster.
-- `./deploy/deploy.sh` will send the yaml to k8s for it to set it all up
-- The above will set things up, but it will be in the private docker network. To expose it to localhost, you'll need to run `./deploy/forward-ports.sh`
+I want developers to practice trunk-based development [for various reasons](https://quii.dev/Reduce_WIP_by_practicing_trunk-based_development,_rather_than_pull_requests). 
 
-## learning notes
+The system we work on, it's structure and its internal quality, has a huge effect on the way we work and our productivity. 
 
-Some of this could be wrong, just going to update as I go.
+It's important that developers can **safely and confidently push small positive changes to the system frequently through the day**
 
-### Pods
+The process for making change should _roughly_ be:
 
-> A Pod (as in a pod of whales or pea pod) is a group of one or more containers, with shared storage and network resources, and a specification for how to run the containers.
+- `git pull -r`
+- If it's a new feature, start with an acceptance test, otherwise, a unit test to drive a further iteration of an existing feature
+- See the test fail
+- Make it pass
+- `git commit -am "added new feature`
+- Refactor
+- `git commit --amend --no-edit`
+- `git pull -r`
+- `./build.sh && git push`
 
-Don't create them directly, create them as part of a deployment.
+### What does that take?
 
-### Deployment
-Describe the shape of your deployment in terms of what kinds of software you want running and how many of them. K8s will maintain the state for you. 
+- Modular code. Each bit of code should have a clear purpose which is cohesive and loosely coupled
+- Enough structure & convention to make it obvious where to start work, and where to put things. 
+  - But not too opinionated about a particular "way" that if a new requirement comes along that doesn't fit that model, that it requires extensive re-work.
+- Excellent observability (out of scope for this repo, this is org-specific)
+- **Tests**. Manual testing is unacceptable.
 
-If you change the deployment (say, change the number of replicas) and then re-apply your yaml, k8s will sort it out. It won't kill everything and start again either, it'll just add new pods.
+#### Tests!!
 
-Similarly, if you do `kubectl get pods` and then `kubectl delete pod XXXX`, the pod will get deleted, but the deployment will kick in and create a new one for you. 
+- Extremely fast unit tests. Developers should be re-running them constantly.
+- Integration tests, ideally running against real versions of the systems our code is working with. Use docker-compose and testcontainers to orchestrate spinning up containers for the test. No manual work
+- Acceptance tests.
+  - Behaviour & domain focused.
+  - Decoupled from implementation detail.
+  - Can be ran locally, or against other environments, including live
+  - As we ship Docker images to be deployed, for the local run we should build our image and test against the running container that we intend to ship.
 
-### Service
+## Implementation notes
 
-Used to expose an application (a set of pods) as a service. Load balances for you.
+### Acceptance criteria & tests
 
-# ALSO: Messing around with acceptance tests and having a reference implementation for myself
+Acceptance tests should be decoupled from your implementation detail. For new features they should be seen as a starting point for work where you describe "the truth" in terms of what behaviour your system should exhibit. 
 
-## General requirements
+```go
+type GreetingSystemAdapter interface {
+	Greet(name string) (greeting string, err error)
+}
 
-- Able to run acceptance, unit and integration tests locally and without fuss. Should work out of the box. `./build.sh && git push` should be safe to go to prod. Emphasis on short cycle times, small-batch work to get feedback loops and reduce risk. 
-- Package up in to a small Docker image for deployment
-- As testable as reasonably possible. High confidence the system works without manual checks
+func GreetingCriteria(t *testing.T, system GreetingSystemAdapter) {
+	t.Run("greets people in a friendly manner", func(t *testing.T) {
+		is := is.New(t)
 
-## Requirements for acceptance tests
+		greeting, err := system.Greet("Pepper")
+		is.NoErr(err)
+		is.Equal(greeting, "Hello, Pepper!")
+	})
+}
+```
 
-- Just describe in terms of the domain. Easier starting point for dev once you've had a discussion with stakeholders.
-- Decoupled from implementation detail
-- Describe "from the top" want you want in a test without worrying about how
-- Be able to run easily locally against
-  - A docker container version, with real dependencies (e.g docker compose dependencies)
-  - Against a real deployed environment to check its deployed and other infrastrcture concerns are working correctly (terraform, config, secrets, etc etc)
-  - Bonus, as a unit test
+To use this test, you create an `adapter` which implements the adapter you need to run the test. For the black-box acceptance tests that's a [HTTP client which calls our API](https://github.com/quii/hello-go-k8s/blob/main/acceptance-tests/api-client-adapter.go) given a `baseURL`. This means we can run them locally but also against deployed environments like live with very little effort.
 
-TODO: Do a vid where I add a new bit of functionality using the approach. Make it _completely_ new, e.g the birthday greeting thing
+You can also re-use these tests inside your domain code too, because the acceptance tests should hold true _within_ your system too. 
+
+```go
+func HelloGreeter(name string) (string, error) {
+	return fmt.Sprintf("Hello, %s!", name), nil
+}
+```
+
+```go
+func TestHelloGreeter(t *testing.T) {
+acceptance_criteria.GreetingCriteria(t, acceptance_criteria.GreetingSystemFunc(HelloGreeter))
+}
+```
+
+### cmd
+As per convention for Go projects, the `cmd` folder holds the code for building programs. The only opinion this project has is that very little code should live in this folder. This is to keep our code here simple, and keeps the system testable. 
+
+All this should be responsible for is calling `NewFoo` functions defined elsewhere to bring up the dependencies we need for a useful program.
+
+### internal
+Within here I do not hold strong opinions around specific patterns like hexagonal, ports & adapters, e.t.c.
+
+To me, they are all means to ends that I **do** care about:
+
+- Modular, testable code
+- Sensible separation of concerns
+- Cohesion
+
+### HTTP
+One strong opinion I do hold is around to structure HTTP servers.
+
+`NewWebServer(config SomeConfig, dependencyA DependencyA, dependencyB, DependencyB, etc) *http.Server`
+
+This means in `main` I can pass in configuration and real dependencies to create my server and then start `log.Fatal(server.ListenAndServe())`. It also means we can use `httptest.NewServer(NewWebServer(...))` to test our web server at a unit level too. 
+
+`http.Handlers` should all look roughly the same.
+
+- Parse and validate a request.
+- Call `h.service.SomeUsefulThing(parsedRequest)`.
+- Send a response based on what was returned above
+
+```go
+type Greeter interface {
+    Greet(name string) (greeting string, err error)
+}
+
+type GreetHandler struct {
+	greeter Greeter
+}
+
+func NewGreetHandler(greeter Greeter) *GreetHandler {
+	return &GreetHandler{greeter: greeter}
+}
+
+func (g *GreetHandler) Greet(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	greeting, err := g.greeter.Greet(vars["name"])
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	fmt.Fprint(w, greeting)
+}
+```
+
+This keeps handlers, skinny, simple to test, and means we can unit test our important business logic without HTTP causing noise and complexity. [I've written more about this in Learn Go with Tests](https://quii.gitbook.io/learn-go-with-tests/questions-and-answers/http-handlers-revisited).
+
+### Dockerfile and Docker-compose
+
+The Dockerfile is a fairly standard, multi-stage build image which allows us to build our code and then ship very small containers
+
+Docker-compose allows us to declaratively define what our app depends on, which is useful for the acceptance tests when running locally but also lets us spin up say `Redis` for our integration tests (in conjunction with [`testcontainers`](https://www.testcontainers.org)).

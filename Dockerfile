@@ -6,7 +6,7 @@ ENV CGO_ENABLED=0 \
 
 WORKDIR /build
 
-# Copy and download dependency using go mod
+# Copy and download dependencies
 COPY go.mod .
 COPY go.sum .
 RUN go mod download
@@ -17,7 +17,7 @@ COPY internal/ ./internal/
 
 FROM deps as build
 
-# Build the application and copy somewhere convienient along with the static assets
+# Build the application and copy somewhere convienient
 RUN go build -o main ./cmd/web/*.go
 WORKDIR /dist
 RUN cp /build/main .

@@ -3,7 +3,8 @@
 package http
 
 import (
-	"github.com/quii/hellok8s/acceptance-tests"
+	"github.com/quii/hellok8s/acceptance-criteria"
+	"github.com/quii/hellok8s/acceptance-criteria/adapters"
 	"net/http/httptest"
 	"testing"
 )
@@ -12,7 +13,7 @@ func TestNewWebServer(t *testing.T) {
 	server := httptest.NewServer(NewWebServer(ServerConfig{}).Handler)
 	defer server.Close()
 
-	client := acceptance_tests.NewAPIClient(server.URL)
+	client := adapters.NewAPIClient(server.URL)
 
-	acceptance_tests.GreetingAcceptanceTest(t, client)
+	acceptance_criteria.GreetingCriteria(t, client)
 }

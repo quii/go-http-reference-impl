@@ -1,4 +1,4 @@
-package acceptance_tests
+package acceptance_criteria
 
 import (
 	"github.com/matryer/is"
@@ -9,7 +9,7 @@ type GreetingSystemAdapter interface {
 	Greet(name string) (greeting string, err error)
 }
 
-func GreetingAcceptanceTest(t *testing.T, system GreetingSystemAdapter) {
+func GreetingCriteria(t *testing.T, system GreetingSystemAdapter) {
 	t.Run("greets people in a friendly manner", func(t *testing.T) {
 		is := is.New(t)
 
