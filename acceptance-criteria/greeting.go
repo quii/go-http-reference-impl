@@ -10,6 +10,7 @@ type GreetingSystemAdapter interface {
 }
 
 func GreetingCriteria(t *testing.T, system GreetingSystemAdapter) {
+	t.Helper()
 	t.Run("greets people in a friendly manner", func(t *testing.T) {
 		is := is.New(t)
 
