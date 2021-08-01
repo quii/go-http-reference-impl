@@ -2,8 +2,8 @@ package http
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/quii/hellok8s/internal/domain/greet"
-	"github.com/quii/hellok8s/internal/http/internal"
+	"github.com/quii/go-http-reference-impl/internal/domain/greet"
+	"github.com/quii/go-http-reference-impl/internal/http/internal"
 )
 
 func newRouter() *mux.Router {

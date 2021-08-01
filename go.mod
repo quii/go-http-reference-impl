@@ -1,4 +1,4 @@
-module github.com/quii/hellok8s
+module github.com/quii/go-http-reference-impl
 
 go 1.16
 

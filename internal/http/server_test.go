@@ -3,8 +3,8 @@
 package http
 
 import (
-	"github.com/quii/hellok8s/acceptance-criteria"
-	"github.com/quii/hellok8s/acceptance-criteria/adapters"
+	"github.com/quii/go-http-reference-impl/acceptance-criteria"
+	"github.com/quii/go-http-reference-impl/acceptance-criteria/adapters"
 	"net/http/httptest"
 	"testing"
 )

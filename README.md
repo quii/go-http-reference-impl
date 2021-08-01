@@ -13,20 +13,21 @@ It's important that developers can **safely and confidently push small positive 
 The process for making change should _roughly_ be:
 
 - `git pull -r`
-- If it's a new feature, start with an acceptance test, otherwise, a unit test to drive a further iteration of an existing feature
-- See the test fail
-- Make it pass
+- If it's a new feature, start with an acceptance test, otherwise, a unit test to drive a further iteration of an existing feature.
+- See the test fail.
+- Make it pass.
 - `git commit -am "added new feature`
-- Refactor
+- Refactor.
+- `git add .`
 - `git commit --amend --no-edit`
 - `git pull -r`
 - `./build.sh && git push`
 
-### What does that take?
+### What does it take to work that way safely?
 
-- Modular code. Each bit of code should have a clear purpose which is cohesive and loosely coupled
+- Modular code. Each bit of code should have a clear purpose which is cohesive and loosely coupled.
 - Enough structure & convention to make it obvious where to start work, and where to put things. 
-  - But not too opinionated about a particular "way" that if a new requirement comes along that doesn't fit that model, that it requires extensive re-work.
+  - But not so opinionated about a particular "way" that if a new requirement comes along that doesn't fit that model, that it requires extensive re-work.
 - Excellent observability (out of scope for this repo, this is org-specific)
 - **Tests**. Manual testing is unacceptable.
 
@@ -37,14 +38,21 @@ The process for making change should _roughly_ be:
 - Acceptance tests.
   - Behaviour & domain focused.
   - Decoupled from implementation detail.
-  - Can be ran locally, or against other environments, including live
-  - As we ship Docker images to be deployed, for the local run we should build our image and test against the running container that we intend to ship.
+  - Can be executed against our local version, or against other environments, including live.
+  - As we ship Docker images to be deployed, for the local run we should build our image and test against a running container that we intend to ship. This gives us huge confidence the system will work in production.
+
+The tests should all be runnable locally. Having to push code to a "CI server" to get feedback on changes is too slow.
 
 ## Implementation notes
 
+### Prereqs
+
+- Go
+- Docker
+
 ### Acceptance criteria & tests
 
-Acceptance tests should be decoupled from your implementation detail. For new features they should be seen as a starting point for work where you describe "the truth" in terms of what behaviour your system should exhibit. 
+Acceptance criteria should be decoupled from your implementation detail. For new features they should be seen as a starting point for work where you describe "the truth" in terms of what behaviour your system should exhibit. 
 
 ```go
 type GreetingSystemAdapter interface {
@@ -62,9 +70,9 @@ func GreetingCriteria(t *testing.T, system GreetingSystemAdapter) {
 }
 ```
 
-To use this test, you create an `adapter` which implements the adapter you need to run the test. For the black-box acceptance tests that's a [HTTP client which calls our API](https://github.com/quii/hello-go-k8s/blob/main/acceptance-tests/api-client-adapter.go) given a `baseURL`. This means we can run them locally but also against deployed environments like live with very little effort.
+To use this test, you create an `adapter` which implements the adapter you need to run the test. For the black-box acceptance tests that's a [HTTP client which calls our API](https://github.com/quii/go-http-reference-impl/blob/main/acceptance-criteria/adapters/api-client-adapter.go) given a `baseURL`. This means we can run them locally but also against deployed environments like live with very little effort.
 
-You can also re-use these tests inside your domain code too, because the acceptance tests should hold true _within_ your system too. 
+You can also re-use these criteria to test your domain code too, because the acceptance criteria should hold true _within_ your system too. 
 
 ```go
 func HelloGreeter(name string) (string, error) {
@@ -74,7 +82,7 @@ func HelloGreeter(name string) (string, error) {
 
 ```go
 func TestHelloGreeter(t *testing.T) {
-acceptance_criteria.GreetingCriteria(t, acceptance_criteria.GreetingSystemFunc(HelloGreeter))
+    acceptance_criteria.GreetingCriteria(t, acceptance_criteria.GreetingSystemFunc(HelloGreeter))
 }
 ```
 

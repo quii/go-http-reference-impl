@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/quii/hellok8s/internal/http"
+	"github.com/quii/go-http-reference-impl/internal/http"
 	"log"
 	"time"
 )
