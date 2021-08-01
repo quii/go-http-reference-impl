@@ -129,7 +129,7 @@ From here, we snap our acceptance test together with our adapter to exercise the
 
 ### `getBaseURL(t)`
 
-An important principle I have for my tests is that they should be self-contained, and set themselves up. I do not wish to spin up databases, applications, e.t.c. just to run a test. 
+An important principle I have for my tests is that they should be self-contained, and set themselves up. I do not wish to manually spin up databases, applications, e.t.c. just to run a test. 
 
 `getBaseURL` checks the environment for a `BASE_URL` value. If it finds one, then we're running it against a deployed environment like production, so from there it can work as usual. 
 
