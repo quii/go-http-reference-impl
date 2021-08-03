@@ -8,12 +8,12 @@ import (
 	"testing"
 )
 
-const five_retries = 5
+const fiveRetries = 5
 
 func TestGreetingApplication(t *testing.T) {
 	client := adapters.NewAPIClient(getBaseURL(t))
 
-	if err := client.WaitForAPIToBeHealthy(five_retries); err != nil {
+	if err := client.WaitForAPIToBeHealthy(fiveRetries); err != nil {
 		t.Fatal(err)
 	}
 
