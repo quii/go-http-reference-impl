@@ -8,7 +8,6 @@ I want developers to practice trunk-based development [for various reasons](http
 
 The system we work on, it's structure and its internal quality, has a huge effect on the way we work and our productivity. I am very-much subscribed to [The DevOps Three Ways](https://itrevolution.com/the-three-ways-principles-underpinning-devops/) which emphasises **flow, feedback-loops and a continuous culture of improvement and learning**. Too many repos I've worked on impede flow and have poor and slow feedback loops.
 
-
 It's important that developers can **safely and confidently push small, positive, high-quality changes to the system frequently through the day**
 
 The process for making change should _roughly_ be:
@@ -94,7 +93,7 @@ As per convention for Go projects, the `cmd` folder holds the code for building 
 All this should be responsible for is calling `NewFoo` functions defined elsewhere to bring up the dependencies we need for a useful program.
 
 ### internal
-Within here I do not hold strong opinions around specific patterns like hexagonal, ports & adapters, e.t.c.
+Within here I do not hold strong opinions around specific patterns like hexagonal, layered, ports & adapters, e.t.c.
 
 To me, they are all means to ends that I **do** care about:
 
