@@ -18,6 +18,7 @@ func TestGreetingApplication(t *testing.T) {
 	}
 
 	acceptance_criteria.GreetingCriteria(t, client)
+	acceptance_criteria.RecipeStoreCriteria(t, client)
 }
 
 
