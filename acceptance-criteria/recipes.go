@@ -2,13 +2,13 @@ package acceptance_criteria
 
 import (
 	is "github.com/matryer/is"
-	"github.com/quii/go-http-reference-impl/domain"
+	"github.com/quii/go-http-reference-impl/models"
 	"testing"
 )
 
 type RecipeStoreAdapter interface {
-	Save(recipe domain.Recipe) (id string, err error)
-	Get(id string) (domain.Recipe, error)
+	Save(recipe models.Recipe) (id string, err error)
+	Get(id string) (models.Recipe, error)
 }
 
 func RecipeStoreCriteria(t *testing.T, adapter RecipeStoreAdapter) {
@@ -16,7 +16,7 @@ func RecipeStoreCriteria(t *testing.T, adapter RecipeStoreAdapter) {
 	t.Run("it stores recipes and lets you retrieve them", func(t *testing.T) {
 		is := is.New(t)
 
-		recipe := domain.Recipe{
+		recipe := models.Recipe{
 			Ingredients: []string{"macaroni", "cheese"},
 			Directions:  []string{"cook the pasta", "put the cheese"},
 			Name:        "Mac and Cheese",

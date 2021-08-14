@@ -3,15 +3,16 @@ package recipe_handler
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
-	"github.com/quii/go-http-reference-impl/domain"
+	"github.com/quii/go-http-reference-impl/models"
+	"github.com/quii/go-http-reference-impl/internal/ports"
 	"net/http"
 )
 
 type RecipeHandler struct {
-	service RecipeService
+	service ports.RecipeService
 }
 
-func NewRecipeHandler(service RecipeService) *RecipeHandler {
+func NewRecipeHandler(service ports.RecipeService) *RecipeHandler {
 	return &RecipeHandler{service: service}
 }
 
@@ -33,7 +34,7 @@ func (rh *RecipeHandler) GetRecipe(w http.ResponseWriter, r *http.Request) {
 }
 
 func (rh *RecipeHandler) storeRecipe(recipe RecipeDTO) (string, error) {
-	return rh.service.StoreRecipe(domain.Recipe{
+	return rh.service.StoreRecipe(models.Recipe{
 		Ingredients: recipe.Ingredients,
 		Directions:  recipe.Directions,
 		Name:        recipe.Name,

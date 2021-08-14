@@ -1,17 +1,13 @@
 package main
 
 import (
-	"github.com/quii/go-http-reference-impl/internal/http"
+	"github.com/quii/go-http-reference-impl/internal/adapters/http"
 	"log"
-	"time"
 )
 
 func main() {
-	server := http.NewWebServer(http.ServerConfig{
-		Port:             "8080",
-		HTTPReadTimeout:  2 * time.Second,
-		HTTPWriteTimeout: 2 * time.Second,
-	})
-
+	app := newApp()
+	server := http.NewWebServer(app.ServerConfig, app.Greeter, app.RecipeService)
 	log.Fatal(server.ListenAndServe())
 }
+

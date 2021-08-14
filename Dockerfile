@@ -14,7 +14,7 @@ RUN go mod download
 # Copy the code into the container
 COPY cmd/ ./cmd/
 COPY internal/ ./internal/
-COPY domain/ ./domain/
+COPY models/ ./models/
 
 FROM deps as build
 

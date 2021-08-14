@@ -1,26 +1,17 @@
-package internal
+package greet_handler
 
 import (
 	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/quii/go-http-reference-impl/internal/ports"
 	"net/http"
 )
 
-type Greeter interface {
-	Greet(name string) (greeting string, err error)
-}
-
-type GreeterFunc func(string) (string, error)
-
-func (g GreeterFunc) Greet(name string) (greeting string, err error) {
-	return g(name)
-}
-
 type GreetHandler struct {
-	greeter Greeter
+	greeter ports.GreeterService
 }
 
-func NewGreetHandler(greeter Greeter) *GreetHandler {
+func NewGreetHandler(greeter ports.GreeterService) *GreetHandler {
 	return &GreetHandler{greeter: greeter}
 }
 

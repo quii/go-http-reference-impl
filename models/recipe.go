@@ -1,4 +1,4 @@
-package domain
+package models
 
 type Recipe struct {
 	Ingredients []string
