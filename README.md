@@ -13,19 +13,21 @@ It's important that developers can **safely and confidently push small, positive
 The process for making change should _roughly_ be:
 
 - `git pull -r`
-- If it's a new feature, start with an acceptance test, otherwise, a unit test to drive a further iteration of an existing feature.
+- If it's a distinctly new feature, start with an acceptance test, otherwise, a unit test to drive a further iteration of an existing feature.
 - See the test fail.
 - Make it pass.
-- `git commit -am "added new feature`
+- `git commit -am "added new feature"`
 - Refactor.
 - `git add .`
 - `git commit --amend --no-edit`
 - `git pull -r`
 - `./build.sh && git push`
 
+Repeat as necessary. Always bear in mind the [test pyramid](https://martinfowler.com/bliki/TestPyramid.html).
+
 ### What does it take to work that way safely?
 
-- Modular code. Each bit of code should have a clear purpose which is cohesive and loosely coupled.
+- Modular code. Each bit of code should have a clear purpose which is cohesive and loosely coupled. If a system has lots of inappropriate and tight-coupling then developers will tread on each other's toes. 
 - Enough structure & convention to make it obvious where to start work, and where to put things. 
   - But not so opinionated about a particular "way" that if a new requirement comes along that doesn't fit that model, that it requires extensive re-work.
 - Excellent observability (out of scope for this repo, this is org-specific)
@@ -33,7 +35,7 @@ The process for making change should _roughly_ be:
 
 #### Tests!!
 
-- Extremely fast unit tests. Developers should be re-running them constantly.
+- Extremely fast unit tests. Developers should be re-running them constantly. In order to make small, frequent, positive changes to the system through a day you need a tight feedback-loop.
 - Integration tests, ideally running against real versions of the systems our code is working with. Use docker-compose and testcontainers to orchestrate spinning up containers for the test. No manual work
 - Acceptance tests.
   - Behaviour & domain focused.
@@ -140,6 +142,8 @@ func (g *GreetHandler) Greet(w http.ResponseWriter, r *http.Request) {
 ```
 
 This keeps handlers, skinny, simple to test, and means we can unit test our important business logic without HTTP causing noise and complexity. [I've written more about this in Learn Go with Tests](https://quii.gitbook.io/learn-go-with-tests/questions-and-answers/http-handlers-revisited).
+
+The responsibility of handling HTTP is with "HTTP handlers", but they shouldn't do much more beyond that. 
 
 ### Dockerfile and Docker-compose
 
