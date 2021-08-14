@@ -13,7 +13,7 @@ func TestNewWebServer(t *testing.T) {
 	server := httptest.NewServer(NewWebServer(ServerConfig{}).Handler)
 	defer server.Close()
 
-	client := adapters.NewAPIClient(server.URL)
+	client := adapters.NewAPIClient(server.URL, t)
 
 	acceptance_criteria.GreetingCriteria(t, client)
 }

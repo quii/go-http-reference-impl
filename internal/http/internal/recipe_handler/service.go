@@ -7,5 +7,5 @@ import (
 //go:generate moq -out recipeservice_moq_test.go . RecipeService
 type RecipeService interface {
 	GetRecipe(id string) (domain.Recipe, error)
-	StoreRecipe(id string, recipe domain.Recipe) error
+	StoreRecipe(recipe domain.Recipe) (id string, err error)
 }

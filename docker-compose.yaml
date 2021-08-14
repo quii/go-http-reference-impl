@@ -7,3 +7,31 @@ services:
       - .:/build
     ports:
       - "8080:8080"
+
+  unit-tests:
+    build:
+      context: .
+      target: deps
+    volumes:
+      - .:/build
+    command: ./scripts/unit-tests.sh
+
+  acceptance-tests:
+    build:
+      context: .
+      target: deps
+    volumes:
+      - .:/build
+    depends_on:
+      - web
+    environment:
+      - BASE_URL=http://web:8080
+    command: ./scripts/acceptance-tests.sh
+
+  integration-tests:
+    build:
+      context: .
+      target: deps
+    volumes:
+      - .:/build
+    command: ./scripts/integration-tests.sh

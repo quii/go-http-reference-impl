@@ -18,10 +18,10 @@ var _ RecipeService = &RecipeServiceMock{}
 //
 // 		// make and configure a mocked RecipeService
 // 		mockedRecipeService := &RecipeServiceMock{
-// 			GetRecipeFunc: func(id string) (acceptance_criteria.Recipe, error) {
+// 			GetRecipeFunc: func(id string) (domain.Recipe, error) {
 // 				panic("mock out the GetRecipe method")
 // 			},
-// 			StoreRecipeFunc: func(id string, recipe acceptance_criteria.Recipe) error {
+// 			StoreRecipeFunc: func(recipe domain.Recipe) (string, error) {
 // 				panic("mock out the StoreRecipe method")
 // 			},
 // 		}
@@ -35,7 +35,7 @@ type RecipeServiceMock struct {
 	GetRecipeFunc func(id string) (domain.Recipe, error)
 
 	// StoreRecipeFunc mocks the StoreRecipe method.
-	StoreRecipeFunc func(id string, recipe domain.Recipe) error
+	StoreRecipeFunc func(recipe domain.Recipe) (string, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -46,8 +46,6 @@ type RecipeServiceMock struct {
 		}
 		// StoreRecipe holds details about calls to the StoreRecipe method.
 		StoreRecipe []struct {
-			// ID is the id argument value.
-			ID string
 			// Recipe is the recipe argument value.
 			Recipe domain.Recipe
 		}
@@ -88,32 +86,28 @@ func (mock *RecipeServiceMock) GetRecipeCalls() []struct {
 }
 
 // StoreRecipe calls StoreRecipeFunc.
-func (mock *RecipeServiceMock) StoreRecipe(id string, recipe domain.Recipe) error {
+func (mock *RecipeServiceMock) StoreRecipe(recipe domain.Recipe) (string, error) {
 	if mock.StoreRecipeFunc == nil {
 		panic("RecipeServiceMock.StoreRecipeFunc: method is nil but RecipeService.StoreRecipe was just called")
 	}
 	callInfo := struct {
-		ID     string
 		Recipe domain.Recipe
 	}{
-		ID:     id,
 		Recipe: recipe,
 	}
 	mock.lockStoreRecipe.Lock()
 	mock.calls.StoreRecipe = append(mock.calls.StoreRecipe, callInfo)
 	mock.lockStoreRecipe.Unlock()
-	return mock.StoreRecipeFunc(id, recipe)
+	return mock.StoreRecipeFunc(recipe)
 }
 
 // StoreRecipeCalls gets all the calls that were made to StoreRecipe.
 // Check the length with:
 //     len(mockedRecipeService.StoreRecipeCalls())
 func (mock *RecipeServiceMock) StoreRecipeCalls() []struct {
-	ID     string
 	Recipe domain.Recipe
 } {
 	var calls []struct {
-		ID     string
 		Recipe domain.Recipe
 	}
 	mock.lockStoreRecipe.RLock()

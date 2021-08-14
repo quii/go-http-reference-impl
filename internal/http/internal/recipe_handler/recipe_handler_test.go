@@ -1,3 +1,5 @@
+// +build unit
+
 package recipe_handler_test
 
 import (
@@ -48,8 +50,8 @@ func TestGetRecipe(t *testing.T) {
 	t.Run("stores recipes", func(t *testing.T) {
 		is := is.New(t)
 
-		spyService := &recipe_handler.RecipeServiceMock{StoreRecipeFunc: func(id string, recipe domain.Recipe) error {
-			return nil
+		spyService := &recipe_handler.RecipeServiceMock{StoreRecipeFunc: func(recipe domain.Recipe) (string, error) {
+			return "", nil
 		}}
 
 		dto := recipe_handler.RecipeDTO{

@@ -2,6 +2,7 @@ package recipe
 
 import (
 	"fmt"
+	"github.com/google/uuid"
 	"github.com/quii/go-http-reference-impl/domain"
 )
 
@@ -23,8 +24,9 @@ func (i InMemoryRecipeStore) GetRecipe(id string) (domain.Recipe, error) {
 	return recipe, nil
 }
 
-func (i InMemoryRecipeStore) StoreRecipe(id string, recipe domain.Recipe) error {
+func (i InMemoryRecipeStore) StoreRecipe(recipe domain.Recipe) (string, error) {
+	id := uuid.NewString()
 	i.store[id] = recipe
-	return nil
+	return id, nil
 }
 

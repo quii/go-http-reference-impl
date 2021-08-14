@@ -10,20 +10,29 @@ import (
 	"time"
 )
 
+type APIClientLogger interface {
+	Log(...interface{})
+	Logf(string, ...interface{})
+}
+
 type APIClient struct {
 	baseURL    string
 	httpClient *http.Client
+	logger APIClientLogger
 }
 
-func NewAPIClient(baseURL string) *APIClient {
+func NewAPIClient(baseURL string, logger APIClientLogger) *APIClient {
 	return &APIClient{
 		baseURL:    baseURL,
 		httpClient: &http.Client{Timeout: 5 * time.Second},
+		logger: logger,
 	}
 }
 
 func (a *APIClient) CheckIfHealthy() error {
 	url := a.baseURL + "/internal/healthcheck"
+	a.logger.Log("GET", url)
+
 	res, err := a.httpClient.Get(url)
 	if err != nil {
 		return fmt.Errorf("problem reaching %s, %w", url, err)
@@ -53,6 +62,7 @@ func (a *APIClient) WaitForAPIToBeHealthy(retries int) error {
 
 func (a *APIClient) Greet(name string) (string, error) {
 	url := a.baseURL + "/greet/" + name
+	a.logger.Log("GET", url)
 
 	res, err := a.httpClient.Get(url)
 	if err != nil {
@@ -74,6 +84,7 @@ func (a *APIClient) Greet(name string) (string, error) {
 
 func (a *APIClient) Save(recipe domain.Recipe) (id string, err error) {
 	url := a.baseURL + "/recipes"
+	a.logger.Log("POST", url)
 
 	recipeAsJSON, _ := json.Marshal(recipe)
 	res, err := a.httpClient.Post(url, "application/json", bytes.NewReader(recipeAsJSON))
