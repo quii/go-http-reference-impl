@@ -27,6 +27,6 @@ func RecipeStoreCriteria(t *testing.T, adapter RecipeStoreAdapter) {
 
 		retrievedRecipe, err := adapter.Get(id)
 		is.NoErr(err)
-		is.Equal(recipe, retrievedRecipe)
+		is.Equal(retrievedRecipe, recipe)
 	})
 }
