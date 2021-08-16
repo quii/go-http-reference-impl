@@ -1,7 +1,7 @@
 package greet
 
 import (
-	acceptance_criteria "github.com/quii/go-http-reference-impl/acceptance-criteria"
+	"github.com/quii/go-http-reference-impl/internal/acceptance_criteria"
 	"testing"
 )
 

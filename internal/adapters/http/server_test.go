@@ -3,10 +3,10 @@
 package http
 
 import (
-	"github.com/quii/go-http-reference-impl/acceptance-criteria"
-	"github.com/quii/go-http-reference-impl/acceptance-criteria/adapters"
+	"github.com/quii/go-http-reference-impl/internal/acceptance_criteria"
+	"github.com/quii/go-http-reference-impl/internal/acceptance_criteria/adapters"
 	in_mem "github.com/quii/go-http-reference-impl/internal/adapters/in-mem"
-	"github.com/quii/go-http-reference-impl/internal/domain/greet"
+	"github.com/quii/go-http-reference-impl/internal/application/greet"
 	"github.com/quii/go-http-reference-impl/internal/ports"
 	"net/http/httptest"
 	"testing"

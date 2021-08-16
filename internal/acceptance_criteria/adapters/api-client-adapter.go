@@ -18,7 +18,7 @@ type APIClientLogger interface {
 type APIClient struct {
 	baseURL    string
 	httpClient *http.Client
-	logger APIClientLogger
+	logger     APIClientLogger
 }
 
 func NewAPIClient(baseURL string, logger APIClientLogger) *APIClient {

@@ -15,7 +15,6 @@ RUN go mod download
 COPY cmd/ ./cmd/
 COPY internal/ ./internal/
 COPY models/ ./models/
-COPY acceptance-criteria/ ./acceptance-criteria
 
 FROM deps as build
 

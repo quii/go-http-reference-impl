@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/quii/go-http-reference-impl/internal/adapters/http"
 	in_mem "github.com/quii/go-http-reference-impl/internal/adapters/in-mem"
-	"github.com/quii/go-http-reference-impl/internal/domain/greet"
+	"github.com/quii/go-http-reference-impl/internal/application/greet"
 	"github.com/quii/go-http-reference-impl/internal/ports"
 )
 
