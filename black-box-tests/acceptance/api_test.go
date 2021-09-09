@@ -3,8 +3,8 @@
 package acceptance
 
 import (
-	"github.com/quii/go-http-reference-impl/internal/acceptance_criteria"
-	"github.com/quii/go-http-reference-impl/internal/acceptance_criteria/adapters"
+	"github.com/quii/go-http-reference-impl/internal/specifications"
+	"github.com/quii/go-http-reference-impl/internal/specifications/adapters"
 	"testing"
 )
 
@@ -17,8 +17,8 @@ func TestGreetingApplication(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	acceptance_criteria.GreetingCriteria(t, client)
-	acceptance_criteria.RecipeStoreCriteria(t, client)
+	specifications.Greeting(t, client)
+	specifications.RecipeBook(t, client)
 }
 
 

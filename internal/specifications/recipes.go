@@ -1,4 +1,4 @@
-package acceptance_criteria
+package specifications
 
 import (
 	is "github.com/matryer/is"
@@ -11,7 +11,7 @@ type RecipeStoreAdapter interface {
 	Get(id string) (models.Recipe, error)
 }
 
-func RecipeStoreCriteria(t *testing.T, adapter RecipeStoreAdapter) {
+func RecipeBook(t *testing.T, adapter RecipeStoreAdapter) {
 	t.Helper()
 	t.Run("it stores recipes and lets you retrieve them", func(t *testing.T) {
 		is := is.New(t)

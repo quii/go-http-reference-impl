@@ -3,8 +3,8 @@
 package http
 
 import (
-	"github.com/quii/go-http-reference-impl/internal/acceptance_criteria"
-	"github.com/quii/go-http-reference-impl/internal/acceptance_criteria/adapters"
+	"github.com/quii/go-http-reference-impl/internal/specifications"
+	"github.com/quii/go-http-reference-impl/internal/specifications/adapters"
 	in_mem "github.com/quii/go-http-reference-impl/internal/adapters/in-mem"
 	"github.com/quii/go-http-reference-impl/internal/application/greet"
 	"github.com/quii/go-http-reference-impl/internal/ports"
@@ -25,5 +25,5 @@ func TestNewWebServer(t *testing.T) {
 
 	client := adapters.NewAPIClient(svr.URL, t)
 
-	acceptance_criteria.GreetingCriteria(t, client)
+	specifications.Greeting(t, client)
 }
