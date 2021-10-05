@@ -1,6 +1,10 @@
 # Learn Go With Tests - BDD and Acceptance tests
 
-Many developers get caught up in the tooling around BDD, in particular DSLs to make tests "read like English". There's nothing inherently wrong with this, if you have non-technical stakeholders actually reading these tests then it can be helpful. However, I've seen many teams sink a lot of time into these tests but are missing the main point behind BDD, and it becomes a very wasteful overhead.
+Many developers get caught up in the tooling around BDD, in particular DSLs to make tests "read like English". There's nothing inherently wrong with this, if you have non-technical stakeholders actually reading these tests then it can be helpful. 
+
+However, I've seen many teams sink a lot of time into these tests but are missing the main point behind BDD, and it becomes a very wasteful overhead.
+
+**The goal of BDD is not to have tests that read like English**
 
 BDD is a much broader topic than things like Cucumber. Dave Farley discusses how it related to domain-driven-design (another misunderstood topic), in particular "ubiquitous language". Farley discusses how software development is fundamentally about modelling the real world and processes. 
 
