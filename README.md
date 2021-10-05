@@ -52,30 +52,30 @@ The tests should all be runnable locally. Having to push code to a "CI server" t
 - Go
 - Docker
 
-### Acceptance criteria & tests
+### Specifications & acceptance tests
 
-Acceptance criteria should be decoupled from your implementation detail. For new features they should be seen as a starting point for work where you describe "the truth" in terms of what behaviour your system should exhibit. 
+Specifications should be decoupled from your implementation detail. For new features they should be seen as a starting point for work where you describe "the truth" in terms of what behaviour your system should exhibit. 
 
 ```go
-type GreetingSystemAdapter interface {
+type GreetingSystemDriver interface {
 	Greet(name string) (greeting string, err error)
 }
 
-func GreetingCriteria(t *testing.T, system GreetingSystemAdapter) {
+func Greeting(t *testing.T, greetingSystem GreetingSystemDriver) {
 	t.Helper()
 	t.Run("greets people in a friendly manner", func(t *testing.T) {
 		is := is.New(t)
 
-		greeting, err := system.Greet("Pepper")
+		greeting, err := greetingSystem.Greet("Pepper")
 		is.NoErr(err)
 		is.Equal(greeting, "Hello, Pepper!")
 	})
 }
 ```
 
-To use this test, you create an `adapter` which implements the adapter you need to run the test. For the black-box acceptance tests that's a [HTTP client which calls our API](https://github.com/quii/go-http-reference-impl/blob/main/acceptance-criteria/adapters/api-client-adapter.go) given a `baseURL`. This means we can run them locally but also against deployed environments like live with very little effort.
+To use this test, you create a `driver` which implements the interface you need to run the test. For the black-box acceptance tests that's a [HTTP client which calls our API](https://github.com/quii/go-http-reference-impl/blob/main/acceptance-criteria/adapters/api-client-adapter.go) given a `baseURL`. This means we can run them locally but also against deployed environments like live with very little effort.
 
-You can also re-use these criteria to test your domain code too, because the acceptance criteria should hold true _within_ your system too. 
+You can also re-use these specifications to test your domain code too, because the criteria and rules of the domain should hold true _within_ your system too.
 
 ```go
 func HelloGreeter(name string) (string, error) {
@@ -85,16 +85,19 @@ func HelloGreeter(name string) (string, error) {
 
 ```go
 func TestHelloGreeter(t *testing.T) {
-    acceptance_criteria.GreetingCriteria(t, acceptance_criteria.GreetingSystemFunc(HelloGreeter))
+    specifications.Greeting(t, specifications.GreetingSystemFunc(HelloGreeter))
 }
 ```
 
 ### cmd
-As per convention for Go projects, the `cmd` folder holds the code for building programs. The only opinion this project has is that very little code should live in this folder. This is to keep our code here simple, and keeps the system testable. 
 
-All this should be responsible for is calling `NewFoo` functions defined elsewhere to bring up the dependencies we need for a useful program.
+All this should be responsible for is:
+
+- Getting configuration
+- Using configuration to create the necessary dependencies for the application (calling `NewFoo` functions)
 
 ### internal
+
 Within here I do not hold strong opinions around specific patterns like hexagonal, layered, ports & adapters, e.t.c.
 
 To me, they are all means to ends that I **do** care about:
@@ -104,6 +107,7 @@ To me, they are all means to ends that I **do** care about:
 - Cohesion
 
 ### HTTP
+
 One strong opinion I do hold is around to structure HTTP servers.
 
 `NewWebServer(config SomeConfig, dependencyA DependencyA, dependencyB, DependencyB, etc) *http.Server`
@@ -143,7 +147,7 @@ func (g *GreetHandler) Greet(w http.ResponseWriter, r *http.Request) {
 
 This keeps handlers, skinny, simple to test, and means we can unit test our important business logic without HTTP causing noise and complexity. [I've written more about this in Learn Go with Tests](https://quii.gitbook.io/learn-go-with-tests/questions-and-answers/http-handlers-revisited).
 
-The responsibility of handling HTTP is with "HTTP handlers", but they shouldn't do much more beyond that. 
+The responsibility of handling HTTP is with "HTTP handlers", but they shouldn't do much more beyond that.
 
 ### Dockerfile and Docker-compose
 

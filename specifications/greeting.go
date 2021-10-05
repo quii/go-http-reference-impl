@@ -5,16 +5,16 @@ import (
 	"testing"
 )
 
-type GreetingSystemAdapter interface {
+type GreetingSystemDriver interface {
 	Greet(name string) (greeting string, err error)
 }
 
-func Greeting(t *testing.T, adapter GreetingSystemAdapter) {
+func Greeting(t *testing.T, greetingSystem GreetingSystemDriver) {
 	t.Helper()
 	t.Run("greets people in a friendly manner", func(t *testing.T) {
 		is := is.New(t)
 
-		greeting, err := adapter.Greet("Pepper")
+		greeting, err := greetingSystem.Greet("Pepper")
 		is.NoErr(err)
 		is.Equal(greeting, "Hello, Pepper!")
 	})

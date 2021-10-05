@@ -1,7 +1,7 @@
 package greet
 
 import (
-	"github.com/quii/go-http-reference-impl/internal/specifications"
+	"github.com/quii/go-http-reference-impl/specifications"
 	"testing"
 )
 

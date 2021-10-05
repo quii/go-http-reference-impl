@@ -1,4 +1,4 @@
-package adapters
+package acceptance
 
 import (
 	"bytes"
@@ -47,7 +47,10 @@ func (a *APIClient) CheckIfHealthy() error {
 }
 
 func (a *APIClient) WaitForAPIToBeHealthy(retries int) error {
-	var err error
+	var (
+		err error
+		start = time.Now()
+	)
 
 	for retries > 0 {
 		if err = a.CheckIfHealthy(); err != nil {
@@ -57,7 +60,7 @@ func (a *APIClient) WaitForAPIToBeHealthy(retries int) error {
 			return nil
 		}
 	}
-	return fmt.Errorf("given up checking healthcheck, %v", err)
+	return fmt.Errorf("given up checking healthcheck after %dms, %v", time.Since(start).Milliseconds(), err)
 }
 
 func (a *APIClient) Greet(name string) (string, error) {
