@@ -3,7 +3,7 @@
 package acceptance
 
 import (
-	specifications2 "github.com/quii/go-http-reference-impl/specifications"
+	"github.com/quii/go-http-reference-impl/specifications"
 	"testing"
 )
 
@@ -16,8 +16,8 @@ func TestGreetingApplication(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	specifications2.Greeting(t, client)
-	specifications2.RecipeBook(t, client)
+	specifications.Greeting(t, client)
+	specifications.RecipeBook(t, client)
 }
 
 
