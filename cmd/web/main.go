@@ -17,6 +17,6 @@ func main() {
 		app.RecipeService,
 	)
 
+	log.Println("All services started. App is ready! 🚀🚀🚀")
 	log.Fatal(server.ListenAndServe())
 }
-
