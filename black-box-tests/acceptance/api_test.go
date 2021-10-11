@@ -1,3 +1,4 @@
+//go:build acceptance
 // +build acceptance
 
 package acceptance
@@ -16,8 +17,13 @@ func TestGreetingApplication(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	specifications.Greeting(t, client)
-	specifications.RecipeBook(t, client)
+	t.Run("api can do greetings", func(t *testing.T) {
+		t.Parallel()
+		specifications.Greeting(t, client)
+	})
+
+	t.Run("api can act as a recipe book", func(t *testing.T) {
+		t.Parallel()
+		specifications.RecipeBook(t, client)
+	})
 }
-
-
