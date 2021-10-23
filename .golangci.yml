@@ -27,5 +27,4 @@ linters:
     - whitespace
     - bodyclose
     - gocritic
-    - revive
     - testpackage
