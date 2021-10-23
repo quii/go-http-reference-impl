@@ -1,13 +1,15 @@
+//go:build acceptance
 // +build acceptance
 
-package acceptance
+package acceptance_test
 
 import (
-	"github.com/google/uuid"
-	"github.com/testcontainers/testcontainers-go"
 	"os"
 	"strings"
 	"testing"
+
+	"github.com/google/uuid"
+	"github.com/testcontainers/testcontainers-go"
 )
 
 const (

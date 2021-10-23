@@ -51,6 +51,7 @@ The tests should all be runnable locally. Having to push code to a "CI server" t
 
 - Go
 - Docker
+- [golangci-lint](https://golangci-lint.run)
 
 ### Specifications & acceptance tests
 

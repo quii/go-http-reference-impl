@@ -1,0 +1,31 @@
+run:
+  build-tags:
+    - integration
+    - unit
+    - acceptance
+
+linters-settings:
+  goimports:
+    # Separate internal packages from external
+    local-prefixes: github.com/saltpay/go-walking-skeleton
+
+linters:
+  # Enable extra linters besides the default ones
+  enable:
+    - goimports
+    - godot
+    - goconst
+    - bodyclose
+    - gochecknoglobals
+    - gofmt
+    - gofumpt
+    - govet
+    - stylecheck
+    - unconvert
+    - unparam
+    - misspell
+    - whitespace
+    - bodyclose
+    - gocritic
+    - revive
+    - testpackage

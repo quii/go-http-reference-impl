@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/quii/go-http-reference-impl/internal/adapters/http"
 	"log"
+
+	"github.com/quii/go-http-reference-impl/internal/adapters/http"
 )
 
 func main() {
@@ -18,5 +19,8 @@ func main() {
 	)
 
 	log.Println("All services started. App is ready! 🚀🚀🚀")
-	log.Fatal(server.ListenAndServe())
+
+	if err := server.ListenAndServe(); err != nil {
+		panic(err) // this is preferable to log.Fatal as we want our defer to run
+	}
 }

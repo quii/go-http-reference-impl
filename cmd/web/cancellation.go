@@ -5,12 +5,12 @@ import (
 	"os"
 	"os/signal"
 )
+
 const (
 	exitCodeInterrupt = 2
 )
 
-//https://pace.dev/blog/2020/02/17/repond-to-ctrl-c-interrupt-signals-gracefully-with-context-in-golang-by-mat-ryer.html
-// this creates an application context which will emit a cancel signal when an interrupt it sent or the application ends
+// https://pace.dev/blog/2020/02/17/repond-to-ctrl-c-interrupt-signals-gracefully-with-context-in-golang-by-mat-ryer.html
 func listenForCancellationAndAddToContext() (ctx context.Context, done func()) {
 	ctx, cancel := context.WithCancel(context.Background())
 

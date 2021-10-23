@@ -1,8 +1,9 @@
 package http
 
 import (
-	"github.com/quii/go-http-reference-impl/internal/ports"
 	"net/http"
+
+	"github.com/quii/go-http-reference-impl/internal/ports"
 )
 
 func NewWebServer(

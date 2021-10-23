@@ -1,4 +1,4 @@
-package recipe_handler
+package recipehandler
 
 import "encoding/json"
 

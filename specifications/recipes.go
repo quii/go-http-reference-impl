@@ -1,9 +1,11 @@
 package specifications
 
 import (
-	is "github.com/matryer/is"
-	"github.com/quii/go-http-reference-impl/models"
 	"testing"
+
+	is "github.com/matryer/is"
+
+	"github.com/quii/go-http-reference-impl/models"
 )
 
 type RecipeStoreAdapter interface {

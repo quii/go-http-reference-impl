@@ -4,10 +4,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/quii/go-http-reference-impl/models"
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/quii/go-http-reference-impl/models"
 )
 
 type APIClientLogger interface {
@@ -25,7 +26,7 @@ func NewAPIClient(baseURL string, logger APIClientLogger) *APIClient {
 	return &APIClient{
 		baseURL:    baseURL,
 		httpClient: &http.Client{Timeout: 5 * time.Second},
-		logger: logger,
+		logger:     logger,
 	}
 }
 
@@ -48,13 +49,13 @@ func (a *APIClient) CheckIfHealthy() error {
 
 func (a *APIClient) WaitForAPIToBeHealthy(retries int) error {
 	var (
-		err error
+		err   error
 		start = time.Now()
 	)
 
 	for retries > 0 {
 		if err = a.CheckIfHealthy(); err != nil {
-			retries -= 1
+			retries--
 			time.Sleep(1 * time.Second)
 		} else {
 			return nil

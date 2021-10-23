@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/quii/go-http-reference-impl/internal/adapters/http"
 	"time"
+
+	"github.com/quii/go-http-reference-impl/internal/adapters/http"
 )
 
 func newDefaultConfig() http.ServerConfig {

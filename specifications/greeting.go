@@ -1,8 +1,9 @@
 package specifications
 
 import (
-	"github.com/matryer/is"
 	"testing"
+
+	"github.com/matryer/is"
 )
 
 type GreetingSystemDriver interface {

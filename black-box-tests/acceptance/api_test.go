@@ -1,17 +1,20 @@
 //go:build acceptance
 // +build acceptance
 
-package acceptance
+package acceptance_test
 
 import (
-	"github.com/quii/go-http-reference-impl/specifications"
 	"testing"
+
+	"github.com/quii/go-http-reference-impl/black-box-tests/acceptance"
+
+	"github.com/quii/go-http-reference-impl/specifications"
 )
 
 const fiveRetries = 5
 
 func TestGreetingApplication(t *testing.T) {
-	client := NewAPIClient(getBaseURL(t), t)
+	client := acceptance.NewAPIClient(getBaseURL(t), t)
 
 	if err := client.WaitForAPIToBeHealthy(fiveRetries); err != nil {
 		t.Fatal(err)
