@@ -107,11 +107,13 @@ Specifics as to how to organise beyond that I don't have especially strong opini
 - Have a sensible separation of concerns
 - Cohesive
 
-You should not have code that interacts with "the outside world" in here. For that you put in
+You should not have code that interacts with "the outside world" in here. For that you put them inside _adapters_.
 
 ### adapters
 
 This is where other users and systems interact with `application`. Think HTTP servers, message queues, databases e.t.c.
+
+In terms of dependency directions, adapters should have dependencies on `application`, but not the other way around. If you find yourself having a circular dependency between adapters and application it's likely you've mixed up concerns somehow. 
 
 #### HTTP
 
