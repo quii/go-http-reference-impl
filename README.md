@@ -36,7 +36,7 @@ Repeat as necessary. Always bear in mind the [test pyramid](https://martinfowler
 #### Tests!!
 
 - Extremely fast unit tests. Developers should be re-running them constantly. In order to make small, frequent, positive changes to the system through a day you need a tight feedback-loop.
-- Integration tests, ideally running against real versions of the systems our code is working with. Use docker-compose and testcontainers to orchestrate spinning up containers for the test. No manual work
+- Integration tests, ideally running against real versions of the systems our code is working with. Use docker-compose and testcontainers to orchestrate spinning up containers for the test. No manual work required to run tests, they should work out of the box.
 - Acceptance tests.
   - Behaviour & domain focused.
   - Decoupled from implementation detail.
@@ -74,7 +74,7 @@ func Greeting(t *testing.T, greetingSystem GreetingSystemDriver) {
 }
 ```
 
-To use this test, you create a `driver` which implements the interface you need to run the test. For the black-box acceptance tests that's a [HTTP client which calls our API](https://github.com/quii/go-http-reference-impl/blob/main/acceptance-criteria/adapters/api-client-adapter.go) given a `baseURL`. This means we can run them locally but also against deployed environments like live with very little effort.
+To use this test, you create a `driver` which implements the interface you need to run the test. For the black-box acceptance tests that's a [HTTP client which calls our API](https://github.com/quii/go-http-reference-impl/blob/main/black-box-tests/acceptance/greeting-api-driver.go#L19) given a `baseURL`. This means we can run them locally but also against deployed environments like live with very little effort.
 
 You can also re-use these specifications to test your domain code too, because the criteria and rules of the domain should hold true _within_ your system too.
 
