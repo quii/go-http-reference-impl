@@ -1,4 +1,4 @@
-FROM golang:1.16.4 as deps
+FROM golang:1.17.2 as deps
 
 ENV CGO_ENABLED=0 \
     GOOS=linux \
@@ -13,8 +13,9 @@ RUN go mod download
 
 # Copy the code into the container
 COPY cmd/ ./cmd/
-COPY internal/ ./internal/
-COPY models/ ./models/
+COPY adapters/ ./adapters/
+COPY application/ ./application/
+COPY scripts/ ./scripts/
 
 FROM deps as build
 

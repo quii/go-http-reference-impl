@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/quii/go-http-reference-impl/application/ports"
 
-	"github.com/quii/go-http-reference-impl/internal/ports"
+	"github.com/gorilla/mux"
 )
 
 type GreetHandler struct {

@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 echo "-- Lint --"
-golangci-lint run
+#golangci-lint run
 
 echo "-- Unit tests --"
 ./scripts/unit-tests.sh

@@ -3,7 +3,7 @@ package greet_test
 import (
 	"testing"
 
-	"github.com/quii/go-http-reference-impl/internal/domain/greet"
+	"github.com/quii/go-http-reference-impl/application/greet"
 
 	"github.com/quii/go-http-reference-impl/specifications"
 )

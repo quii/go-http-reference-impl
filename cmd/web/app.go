@@ -4,10 +4,11 @@ import (
 	"context"
 	"log"
 
-	"github.com/quii/go-http-reference-impl/internal/adapters/http"
-	in_mem "github.com/quii/go-http-reference-impl/internal/adapters/in-mem"
-	"github.com/quii/go-http-reference-impl/internal/domain/greet"
-	"github.com/quii/go-http-reference-impl/internal/ports"
+	"github.com/quii/go-http-reference-impl/application/ports"
+
+	"github.com/quii/go-http-reference-impl/adapters/http"
+	in_mem "github.com/quii/go-http-reference-impl/adapters/in-mem"
+	"github.com/quii/go-http-reference-impl/application/greet"
 )
 
 // App holds and creates dependencies for your application.

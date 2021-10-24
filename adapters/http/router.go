@@ -3,10 +3,11 @@ package http
 import (
 	"github.com/gorilla/mux"
 
-	"github.com/quii/go-http-reference-impl/internal/adapters/http/internal"
-	"github.com/quii/go-http-reference-impl/internal/adapters/http/internal/greethandler"
-	"github.com/quii/go-http-reference-impl/internal/adapters/http/internal/recipehandler"
-	"github.com/quii/go-http-reference-impl/internal/ports"
+	"github.com/quii/go-http-reference-impl/application/ports"
+
+	"github.com/quii/go-http-reference-impl/adapters/http/internal"
+	"github.com/quii/go-http-reference-impl/adapters/http/internal/greethandler"
+	"github.com/quii/go-http-reference-impl/adapters/http/internal/recipehandler"
 )
 
 func newRouter(greeter ports.GreeterService, recipeService ports.RecipeService) *mux.Router {

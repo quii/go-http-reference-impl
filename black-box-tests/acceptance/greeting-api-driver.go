@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/quii/go-http-reference-impl/models"
+	"github.com/quii/go-http-reference-impl/application/recipe"
 )
 
 type APIClientLogger interface {
@@ -86,11 +86,11 @@ func (a *APIClient) Greet(name string) (string, error) {
 	return string(body), nil
 }
 
-func (a *APIClient) Save(recipe models.Recipe) (id string, err error) {
+func (a *APIClient) Save(r recipe.Recipe) (id string, err error) {
 	url := a.baseURL + "/recipes"
 	a.logger.Log("POST", url)
 
-	recipeAsJSON, _ := json.Marshal(recipe)
+	recipeAsJSON, _ := json.Marshal(r)
 	res, err := a.httpClient.Post(url, "application/json", bytes.NewReader(recipeAsJSON))
 	if err != nil {
 		return "", fmt.Errorf("problem reaching %s, %w", url, err)
@@ -114,22 +114,22 @@ func (a *APIClient) Save(recipe models.Recipe) (id string, err error) {
 	return createdRes.ID, nil
 }
 
-func (a *APIClient) Get(id string) (models.Recipe, error) {
+func (a *APIClient) Get(id string) (recipe.Recipe, error) {
 	url := a.baseURL + "/recipes/" + id
 	res, err := a.httpClient.Get(url)
 	if err != nil {
-		return models.Recipe{}, fmt.Errorf("problem reaching %s, %w", url, err)
+		return recipe.Recipe{}, fmt.Errorf("problem reaching %s, %w", url, err)
 	}
 	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
-		return models.Recipe{}, fmt.Errorf("unexpected status %d from %q", res.StatusCode, url)
+		return recipe.Recipe{}, fmt.Errorf("unexpected status %d from %q", res.StatusCode, url)
 	}
 
-	var recipe models.Recipe
-	if err = json.NewDecoder(res.Body).Decode(&recipe); err != nil {
-		return models.Recipe{}, fmt.Errorf("could not parse created response from %s, %w", url, err)
+	var r recipe.Recipe
+	if err = json.NewDecoder(res.Body).Decode(&r); err != nil {
+		return recipe.Recipe{}, fmt.Errorf("could not parse created response from %s, %w", url, err)
 	}
 
-	return recipe, nil
+	return r, nil
 }

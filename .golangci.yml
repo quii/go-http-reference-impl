@@ -7,7 +7,7 @@ run:
 linters-settings:
   goimports:
     # Separate internal packages from external
-    local-prefixes: github.com/saltpay/go-walking-skeleton
+    local-prefixes: github.com/quii/go-http-reference-impl
 
 linters:
   # Enable extra linters besides the default ones

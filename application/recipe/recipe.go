@@ -1,4 +1,4 @@
-package models
+package recipe
 
 type Recipe struct {
 	Ingredients []string

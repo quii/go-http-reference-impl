@@ -3,7 +3,7 @@ package http
 import (
 	"net/http"
 
-	"github.com/quii/go-http-reference-impl/internal/ports"
+	"github.com/quii/go-http-reference-impl/application/ports"
 )
 
 func NewWebServer(

@@ -7,18 +7,18 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/quii/go-http-reference-impl/internal/adapters/http"
+	"github.com/quii/go-http-reference-impl/application/ports"
 
+	http2 "github.com/quii/go-http-reference-impl/adapters/http"
+	in_mem "github.com/quii/go-http-reference-impl/adapters/in-mem"
+	"github.com/quii/go-http-reference-impl/application/greet"
 	"github.com/quii/go-http-reference-impl/black-box-tests/acceptance"
-	in_mem "github.com/quii/go-http-reference-impl/internal/adapters/in-mem"
-	"github.com/quii/go-http-reference-impl/internal/domain/greet"
-	"github.com/quii/go-http-reference-impl/internal/ports"
 	"github.com/quii/go-http-reference-impl/specifications"
 )
 
 func TestNewWebServer(t *testing.T) {
-	webServer := http.NewWebServer(
-		http.ServerConfig{},
+	webServer := http2.NewWebServer(
+		http2.ServerConfig{},
 		ports.GreeterServiceFunc(greet.HelloGreeter),
 		in_mem.NewRecipeStore(),
 	)

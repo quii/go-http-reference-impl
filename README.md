@@ -97,17 +97,23 @@ All this should be responsible for is:
 - Getting configuration
 - Using configuration to create the necessary dependencies for the application (calling `NewFoo` functions)
 
-### internal
+### application
 
-Within here I do not hold strong opinions around specific patterns like hexagonal, layered, ports & adapters, e.t.c.
+Within here should live what you could roughly call your "domain" or application code. It should contain most of your data models and business logic.
 
-To me, they are all means to ends that I **do** care about:
+Specifics as to how to organise beyond that I don't have especially strong opinions about, but the code must be:
 
-- Modular, testable code
-- Sensible separation of concerns
-- Cohesion
+- Modular & testable
+- Have a sensible separation of concerns
+- Cohesive
 
-### HTTP
+You should not have code that interacts with "the outside world" in here. For that you put in
+
+### adapters
+
+This is where other users and systems interact with `application`. Think HTTP servers, message queues, databases e.t.c.
+
+#### HTTP
 
 One strong opinion I do hold is around to structure HTTP servers.
 

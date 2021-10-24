@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/quii/go-http-reference-impl/internal/adapters/http"
+	"github.com/quii/go-http-reference-impl/adapters/http"
 )
 
 func main() {
