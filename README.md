@@ -1,5 +1,8 @@
 # Go HTTP service reference implementation
 
+[![Tests](https://github.com/quii/go-http-reference-impl/actions/workflows/main.yml/badge.svg)](https://github.com/quii/go-http-reference-impl/actions/workflows/main.yml)
+[![golangci-lint](https://github.com/quii/go-http-reference-impl/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/quii/go-http-reference-impl/actions/workflows/golangci-lint.yml)
+
 This is my current state-of-the-art opinion on how I like to structure Go projects for how I, and how I want my teams to work.
 
 ## High level-requirements
