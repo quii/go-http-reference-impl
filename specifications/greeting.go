@@ -1,13 +1,14 @@
 package specifications
 
 import (
+	"context"
 	"testing"
 
 	"github.com/matryer/is"
 )
 
 type GreetingSystemDriver interface {
-	Greet(name string) (greeting string, err error)
+	Greet(ctx context.Context, name string) (greeting string, err error)
 }
 
 func Greeting(t *testing.T, greetingSystem GreetingSystemDriver) {
@@ -15,14 +16,14 @@ func Greeting(t *testing.T, greetingSystem GreetingSystemDriver) {
 	t.Run("greets people in a friendly manner", func(t *testing.T) {
 		is := is.New(t)
 
-		greeting, err := greetingSystem.Greet("Pepper")
+		greeting, err := greetingSystem.Greet(context.Background(), "Pepper")
 		is.NoErr(err)
 		is.Equal(greeting, "Hello, Pepper!")
 	})
 }
 
-type GreetingSystemFunc func(name string) (greeting string, err error)
+type GreetingSystemFunc func(ctx context.Context, name string) (greeting string, err error)
 
-func (g GreetingSystemFunc) Greet(name string) (greeting string, err error) {
-	return g(name)
+func (g GreetingSystemFunc) Greet(ctx context.Context, name string) (greeting string, err error) {
+	return g(ctx, name)
 }

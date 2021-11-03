@@ -7,15 +7,13 @@ import (
 	"github.com/quii/go-http-reference-impl/application/ports"
 
 	"github.com/quii/go-http-reference-impl/adapters/http"
-	in_mem "github.com/quii/go-http-reference-impl/adapters/in-mem"
 	"github.com/quii/go-http-reference-impl/application/greet"
 )
 
 // App holds and creates dependencies for your application.
 type App struct {
-	ServerConfig  http.ServerConfig
-	Greeter       ports.GreeterService
-	RecipeService ports.RecipeService
+	ServerConfig http.ServerConfig
+	Greeter      ports.GreeterService
 }
 
 func newApp(applicationContext context.Context) *App {
@@ -24,9 +22,8 @@ func newApp(applicationContext context.Context) *App {
 	go doSomethingOnInterrupt(applicationContext)
 
 	return &App{
-		ServerConfig:  config,
-		Greeter:       ports.GreeterServiceFunc(greet.HelloGreeter),
-		RecipeService: in_mem.NewRecipeStore(),
+		ServerConfig: config,
+		Greeter:      ports.GreeterServiceFunc(greet.HelloGreeter),
 	}
 }
 

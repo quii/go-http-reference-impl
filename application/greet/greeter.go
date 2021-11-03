@@ -1,7 +1,10 @@
 package greet
 
-import "fmt"
+import (
+	"context"
+	"fmt"
+)
 
-func HelloGreeter(name string) (string, error) {
+func HelloGreeter(context context.Context, name string) (string, error) {
 	return fmt.Sprintf("Hello, %s!", name), nil
 }

@@ -10,7 +10,6 @@ import (
 	"github.com/quii/go-http-reference-impl/application/ports"
 
 	http2 "github.com/quii/go-http-reference-impl/adapters/http"
-	in_mem "github.com/quii/go-http-reference-impl/adapters/in-mem"
 	"github.com/quii/go-http-reference-impl/application/greet"
 	"github.com/quii/go-http-reference-impl/specifications"
 )
@@ -19,7 +18,6 @@ func TestNewWebServer(t *testing.T) {
 	webServer := http2.NewWebServer(
 		http2.ServerConfig{},
 		ports.GreeterServiceFunc(greet.HelloGreeter),
-		in_mem.NewRecipeStore(),
 	)
 
 	svr := httptest.NewServer(webServer.Handler)

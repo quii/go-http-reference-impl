@@ -9,11 +9,10 @@ import (
 func NewWebServer(
 	config ServerConfig,
 	greeter ports.GreeterService,
-	recipeService ports.RecipeService,
 ) *http.Server {
 	return &http.Server{
 		Addr:         config.TCPAddress(),
-		Handler:      newRouter(greeter, recipeService),
+		Handler:      newRouter(greeter),
 		ReadTimeout:  config.HTTPReadTimeout,
 		WriteTimeout: config.HTTPWriteTimeout,
 	}

@@ -18,7 +18,7 @@ func New(greeter ports.GreeterService) *GreetHandler {
 }
 
 func (g *GreetHandler) Greet(w http.ResponseWriter, r *http.Request) {
-	greeting, err := g.greeter.Greet(mux.Vars(r)["name"])
+	greeting, err := g.greeter.Greet(r.Context(), mux.Vars(r)["name"])
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

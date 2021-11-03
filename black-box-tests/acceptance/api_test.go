@@ -24,9 +24,4 @@ func TestGreetingApplication(t *testing.T) {
 		t.Parallel()
 		specifications.Greeting(t, client)
 	})
-
-	t.Run("api can act as a recipe book", func(t *testing.T) {
-		t.Parallel()
-		specifications.RecipeBook(t, client)
-	})
 }

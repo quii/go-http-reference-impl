@@ -4,6 +4,7 @@
 package ports
 
 import (
+	"context"
 	"sync"
 )
 
@@ -17,7 +18,7 @@ var _ GreeterService = &GreeterServiceMock{}
 //
 // 		// make and configure a mocked GreeterService
 // 		mockedGreeterService := &GreeterServiceMock{
-// 			GreetFunc: func(name string) (string, error) {
+// 			GreetFunc: func(ctx context.Context, name string) (string, error) {
 // 				panic("mock out the Greet method")
 // 			},
 // 		}
@@ -28,12 +29,14 @@ var _ GreeterService = &GreeterServiceMock{}
 // 	}
 type GreeterServiceMock struct {
 	// GreetFunc mocks the Greet method.
-	GreetFunc func(name string) (string, error)
+	GreetFunc func(ctx context.Context, name string) (string, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
 		// Greet holds details about calls to the Greet method.
 		Greet []struct {
+			// Ctx is the ctx argument value.
+			Ctx context.Context
 			// Name is the name argument value.
 			Name string
 		}
@@ -42,28 +45,32 @@ type GreeterServiceMock struct {
 }
 
 // Greet calls GreetFunc.
-func (mock *GreeterServiceMock) Greet(name string) (string, error) {
+func (mock *GreeterServiceMock) Greet(ctx context.Context, name string) (string, error) {
 	if mock.GreetFunc == nil {
 		panic("GreeterServiceMock.GreetFunc: method is nil but GreeterService.Greet was just called")
 	}
 	callInfo := struct {
+		Ctx  context.Context
 		Name string
 	}{
+		Ctx:  ctx,
 		Name: name,
 	}
 	mock.lockGreet.Lock()
 	mock.calls.Greet = append(mock.calls.Greet, callInfo)
 	mock.lockGreet.Unlock()
-	return mock.GreetFunc(name)
+	return mock.GreetFunc(ctx, name)
 }
 
 // GreetCalls gets all the calls that were made to Greet.
 // Check the length with:
 //     len(mockedGreeterService.GreetCalls())
 func (mock *GreeterServiceMock) GreetCalls() []struct {
+	Ctx  context.Context
 	Name string
 } {
 	var calls []struct {
+		Ctx  context.Context
 		Name string
 	}
 	mock.lockGreet.RLock()
