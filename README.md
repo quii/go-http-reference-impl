@@ -169,3 +169,23 @@ The responsibility of handling HTTP is with "HTTP handlers", but they shouldn't 
 The Dockerfile is a fairly standard, multi-stage build image which allows us to build our code and then ship very small containers
 
 Docker-compose allows us to declaratively define what our app depends on, which is useful for the acceptance tests when running locally but also lets us spin up say `Redis` for our integration tests (in conjunction with [`testcontainers`](https://www.testcontainers.org)).
+
+## Telemetry
+
+Using OpenTelemetry. Locally it will export to a local Jaeger for tracing
+
+http://localhost:16686
+
+```
+docker run -d --name jaeger \                                  
+  -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 \
+  -p 5775:5775/udp \
+  -p 6831:6831/udp \
+  -p 6832:6832/udp \
+  -p 5778:5778 \
+  -p 16686:16686 \
+  -p 14268:14268 \
+  -p 14250:14250 \
+  -p 9411:9411 \
+  jaegertracing/all-in-one:1.27
+```
