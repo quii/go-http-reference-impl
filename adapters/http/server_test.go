@@ -12,7 +12,6 @@ import (
 	http2 "github.com/quii/go-http-reference-impl/adapters/http"
 	in_mem "github.com/quii/go-http-reference-impl/adapters/in-mem"
 	"github.com/quii/go-http-reference-impl/application/greet"
-	"github.com/quii/go-http-reference-impl/black-box-tests/acceptance"
 	"github.com/quii/go-http-reference-impl/specifications"
 )
 
@@ -26,7 +25,7 @@ func TestNewWebServer(t *testing.T) {
 	svr := httptest.NewServer(webServer.Handler)
 	defer svr.Close()
 
-	client := acceptance.NewAPIClient(svr.URL, t)
+	client := http2.NewAPIClient(svr.URL, t)
 
 	specifications.Greeting(t, client)
 }

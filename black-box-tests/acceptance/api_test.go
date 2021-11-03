@@ -6,7 +6,7 @@ package acceptance_test
 import (
 	"testing"
 
-	"github.com/quii/go-http-reference-impl/black-box-tests/acceptance"
+	"github.com/quii/go-http-reference-impl/adapters/http"
 
 	"github.com/quii/go-http-reference-impl/specifications"
 )
@@ -14,7 +14,7 @@ import (
 const fiveRetries = 5
 
 func TestGreetingApplication(t *testing.T) {
-	client := acceptance.NewAPIClient(getBaseURL(t), t)
+	client := http.NewAPIClient(getBaseURL(t), t)
 
 	if err := client.WaitForAPIToBeHealthy(fiveRetries); err != nil {
 		t.Fatal(err)
