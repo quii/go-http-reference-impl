@@ -3,6 +3,11 @@ package main
 import (
 	"context"
 	"log"
+	"os"
+
+	"go.opentelemetry.io/otel"
+
+	"go.opentelemetry.io/otel/sdk/trace"
 
 	"github.com/quii/go-http-reference-impl/application/ports"
 
@@ -16,22 +21,30 @@ type App struct {
 	Greeter      ports.GreeterService
 }
 
-func newApp(applicationContext context.Context) *App {
-	config := newDefaultConfig()
+func newApp(applicationContext context.Context) (*App, error) {
+	config, err := newDefaultConfig()
+	if err != nil {
+		return nil, err
+	}
 
-	go doSomethingOnInterrupt(applicationContext)
+	otel.SetTracerProvider(config.TraceProvider)
+
+	go cleanupBeforeQuit(applicationContext, config.TraceProvider)
 
 	return &App{
 		ServerConfig: config,
 		Greeter:      ports.GreeterServiceFunc(greet.HelloGreeter),
-	}
+	}, nil
 }
 
-// this is just an example of how the services within an app could listen to the
-// cancellation signal and stop their work gracefully. So it's probably a decent
-// idea to pass the application context to services if you want to do some
-// cleanup before finishing.
-func doSomethingOnInterrupt(ctx context.Context) {
+// here is a chance to tidy things up before the app quits.
+func cleanupBeforeQuit(ctx context.Context, tp *trace.TracerProvider) {
 	<-ctx.Done()
-	log.Println("☠️ Program has been told to quit, I should tidy things up ☠️")
+	log.Println("☠️  Program has been told to quit, I should tidy things up ☠️")
+
+	if err := tp.Shutdown(context.Background()); err != nil {
+		panic(err)
+	}
+	log.Println("✅ Shutdown tracer provider")
+	os.Exit(0) // not sure if this is "good"
 }

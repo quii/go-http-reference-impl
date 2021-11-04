@@ -14,8 +14,11 @@ func NewWebServer(
 ) *http.Server {
 	router := newRouter(greeter)
 	return &http.Server{
-		Addr:         config.TCPAddress(),
-		Handler:      otelhttp.NewHandler(router, "greet-http-server"),
+		Addr: config.TCPAddress(),
+		Handler: otelhttp.NewHandler(
+			router,
+			"greet-http-server",
+		),
 		ReadTimeout:  config.HTTPReadTimeout,
 		WriteTimeout: config.HTTPWriteTimeout,
 	}

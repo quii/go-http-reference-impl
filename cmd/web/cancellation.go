@@ -28,6 +28,7 @@ func listenForCancellationAndAddToContext() (ctx context.Context, done func()) {
 			cancel()
 		case <-ctx.Done():
 		}
+		<-signalChan
 		os.Exit(exitCodeInterrupt)
 	}()
 
