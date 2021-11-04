@@ -36,7 +36,7 @@ Repeat as necessary. Always bear in mind the [test pyramid](https://martinfowler
 - Modular code. Each bit of code should have a clear purpose which is cohesive and loosely coupled. If a system has lots of inappropriate and tight-coupling then developers will tread on each other's toes. 
 - Enough structure & convention to make it obvious where to start work, and where to put things. 
   - But not so opinionated about a particular "way" that if a new requirement comes along that doesn't fit that model, that it requires extensive re-work.
-- Excellent observability (out of scope for this repo, this is org-specific)
+- Excellent observability
 - **Tests**. Manual testing is unacceptable.
 
 #### Tests!!
@@ -172,9 +172,9 @@ Docker-compose allows us to declaratively define what our app depends on, which 
 
 ## Telemetry
 
-Using OpenTelemetry. Locally it will export to a local Jaeger for tracing
+Using OpenTelemetry. Locally it will export to [Jaeger](https://www.jaegertracing.io) for tracing.
 
-http://localhost:16686
+Run the following Docker command to spin up a local Jaeger:
 
 ```
 docker run -d --name jaeger \                                  
@@ -189,3 +189,5 @@ docker run -d --name jaeger \
   -p 9411:9411 \
   jaegertracing/all-in-one:1.27
 ```
+
+[Visit http://localhost:16686](http://localhost:16686) to view traces. 
