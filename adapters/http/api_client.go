@@ -28,7 +28,7 @@ func NewAPIClient(baseURL string, logger APIClientLogger) *APIClient {
 }
 
 func (a *APIClient) CheckIfHealthy() error {
-	url := a.baseURL + "/internal/healthcheck"
+	url := a.baseURL + "/handlers/healthcheck"
 	a.logger.Log("GET", url)
 
 	res, err := a.httpClient.Get(url)

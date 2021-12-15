@@ -3,18 +3,12 @@ package http
 import (
 	"github.com/gorilla/mux"
 
-	"github.com/quii/go-http-reference-impl/application/ports"
-
-	"github.com/quii/go-http-reference-impl/adapters/http/internal"
-	"github.com/quii/go-http-reference-impl/adapters/http/internal/greethandler"
+	"github.com/quii/go-http-reference-impl/adapters/http/handlers"
 )
 
-func newRouter(greeter ports.GreeterService) *mux.Router {
-	greetingHandler := greethandler.New(greeter)
-
+func newRouter() *mux.Router {
 	router := mux.NewRouter()
-	router.HandleFunc("/internal/healthcheck", internal.HealthCheck)
-	router.HandleFunc("/greet/{name}", greetingHandler.Greet)
+	router.HandleFunc("/handlers/healthcheck", handlers.HealthCheck)
 
 	return router
 }

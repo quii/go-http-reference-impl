@@ -7,17 +7,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/quii/go-http-reference-impl/application/ports"
-
 	http2 "github.com/quii/go-http-reference-impl/adapters/http"
-	"github.com/quii/go-http-reference-impl/application/greet"
-	"github.com/quii/go-http-reference-impl/specifications"
 )
 
 func TestNewWebServer(t *testing.T) {
 	webServer := http2.NewWebServer(
 		http2.ServerConfig{},
-		ports.GreeterServiceFunc(greet.HelloGreeter),
 	)
 
 	svr := httptest.NewServer(webServer.Handler)
@@ -25,5 +20,7 @@ func TestNewWebServer(t *testing.T) {
 
 	client := http2.NewAPIClient(svr.URL, t)
 
-	specifications.Greeting(t, client)
+	if err := client.CheckIfHealthy(); err != nil {
+		t.Errorf("expected no error, got %v", err)
+	}
 }

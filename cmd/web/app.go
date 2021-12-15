@@ -9,16 +9,12 @@ import (
 
 	"go.opentelemetry.io/otel/sdk/trace"
 
-	"github.com/quii/go-http-reference-impl/application/ports"
-
 	"github.com/quii/go-http-reference-impl/adapters/http"
-	"github.com/quii/go-http-reference-impl/application/greet"
 )
 
 // App holds and creates dependencies for your application.
 type App struct {
 	ServerConfig http.ServerConfig
-	Greeter      ports.GreeterService
 }
 
 func newApp(applicationContext context.Context) (*App, error) {
@@ -33,7 +29,6 @@ func newApp(applicationContext context.Context) (*App, error) {
 
 	return &App{
 		ServerConfig: config,
-		Greeter:      ports.GreeterServiceFunc(greet.HelloGreeter),
 	}, nil
 }
 

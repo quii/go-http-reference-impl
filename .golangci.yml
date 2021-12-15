@@ -6,7 +6,7 @@ run:
 
 linters-settings:
   goimports:
-    # Separate internal packages from external
+    # Separate handlers packages from external
     local-prefixes: github.com/quii/go-http-reference-impl
 
 linters:

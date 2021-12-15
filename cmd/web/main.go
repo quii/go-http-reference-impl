@@ -17,7 +17,6 @@ func main() {
 
 	server := http.NewWebServer(
 		app.ServerConfig,
-		app.Greeter,
 	)
 
 	log.Println("All services started. App is ready! 🚀🚀🚀")

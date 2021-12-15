@@ -4,15 +4,12 @@ import (
 	"net/http"
 
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
-
-	"github.com/quii/go-http-reference-impl/application/ports"
 )
 
 func NewWebServer(
 	config ServerConfig,
-	greeter ports.GreeterService,
 ) *http.Server {
-	router := newRouter(greeter)
+	router := newRouter()
 	return &http.Server{
 		Addr: config.TCPAddress(),
 		Handler: otelhttp.NewHandler(
